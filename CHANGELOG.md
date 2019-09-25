@@ -1,4 +1,10 @@
-# Changes crossterm_terminal 0.3.0
+# Version 0.3.1
+
+- Maintenance release only
+- Moved to a [separate repository](https://github.com/crossterm-rs/crossterm-terminal)
+
+# Version 0.3.0
+
 - `Terminal::terminal_size` to `Terminal::size`
 - `Terminal::size()` returns `Result<(u16, u16)>`
 - Return written bytes: [return-written-bytes]
@@ -11,12 +17,15 @@
 [return-written-bytes]: https://github.com/crossterm-rs/crossterm/pull/212
 [fixed-get-set-terminal-size]: https://github.com/crossterm-rs/crossterm/pull/242
 
-# Changes crossterm_terminal 0.2.2
+# Version 0.2.2
+
 - Terminal size Linux was not 0-based.
 - Made FreeBSD compile
 
-# Changes crossterm_terminal 0.2
+# Version 0.2.0
+
 - Removed `Terminal:from_output()` 
 
-# Changes crossterm_terminal 0.1 
+# Version 0.1.0
+
 - Moved out of `crossterm` 5.4 crate. 
