@@ -3,21 +3,22 @@
 # Crossterm Terminal
 
 This crate allows you to perform terminal related actions cross-platform e.g clearing, resizing etc. 
-It supports all UNIX and windows terminals down to windows 7 (not all terminals are tested see
+It supports all UNIX and Windows terminals down to Windows 7 (not all terminals are tested see
 [Tested Terminals](#tested-terminals) for more info)
 
-This crate is a sub-crate of [crossterm](https://crates.io/crates/crossterm) to perform terminal
-related actions, and can be use individually.
+`crossterm_terminal` is a sub-crate of the [crossterm](https://crates.io/crates/crossterm) crate. You can use it
+directly, but it's **highly recommended** to use the [crossterm](https://crates.io/crates/crossterm) crate with
+the `terminal` feature enabled (see [feature flags](https://crossterm-rs.github.io/crossterm/docs/feature_flags.html)
+for more info).
 
-Other sub-crates are:
+## Future
 
-- [crossterm_style](https://crates.io/crates/crossterm_style) 
-- [crossterm_input](https://crates.io/crates/crossterm_input) 
-- [crossterm_screen](https://crates.io/crates/crossterm_screen)
-- [crossterm_cursor](https://crates.io/crates/crossterm_cursor)
- 
-When you want to use other modules as well you might want to use crossterm with
-[feature flags](https://crossterm-rs.github.io/crossterm/docs/feature_flags.html).
+> The `crossterm_terminal` crate code will be moved to the `crossterm` crate (it's reexported there now).
+> Date is not set yet, but it doesn't make a lot of sense to start a new project with it. Please, use
+> the `crossterm` crate with the `terminal` feature enabled.
+
+Issues in this repository are disabled for the same reason. Please, report all issues in the
+[crossterm-rs/crossterm](https://github.com/crossterm-rs/crossterm/issues) repository.
  
 ## Table of contents:
 
