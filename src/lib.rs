@@ -2,18 +2,18 @@
 
 use std::fmt;
 
-#[doc(no_inline)]
-pub use crossterm_utils::{Command, ExecutableCommand, execute, queue, QueueableCommand, Result};
-use crossterm_utils::{impl_display, write_cout};
 #[cfg(windows)]
 use crossterm_utils::supports_ansi;
+#[doc(no_inline)]
+pub use crossterm_utils::{execute, queue, Command, ExecutableCommand, QueueableCommand, Result};
+use crossterm_utils::{impl_display, write_cout};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-use self::terminal::Terminal as TerminalTrait;
 use self::terminal::ansi::AnsiTerminal;
 #[cfg(windows)]
 use self::terminal::winapi::WinApiTerminal;
+use self::terminal::Terminal as TerminalTrait;
 
 pub(crate) mod sys;
 pub(crate) mod terminal;
@@ -58,14 +58,14 @@ impl Terminal {
     /// Create new terminal instance whereon terminal related actions can be performed.
     pub fn new() -> Terminal {
         #[cfg(windows)]
-            let terminal = if supports_ansi() {
+        let terminal = if supports_ansi() {
             Box::from(AnsiTerminal::new()) as Box<(dyn TerminalTrait + Sync + Send)>
         } else {
             WinApiTerminal::new() as Box<(dyn TerminalTrait + Sync + Send)>
         };
 
         #[cfg(unix)]
-            let terminal = AnsiTerminal::new();
+        let terminal = AnsiTerminal::new();
 
         Terminal { terminal }
     }

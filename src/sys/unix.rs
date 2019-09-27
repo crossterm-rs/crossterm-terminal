@@ -1,6 +1,5 @@
-use libc::{ioctl, winsize, STDOUT_FILENO, TIOCGWINSZ};
-
 use crossterm_utils::Result;
+use libc::{ioctl, winsize, STDOUT_FILENO, TIOCGWINSZ};
 
 pub(crate) fn exit() {
     ::std::process::exit(0);
