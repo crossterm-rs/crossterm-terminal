@@ -238,17 +238,11 @@ impl Command for Clear {
 
     fn ansi_code(&self) -> Self::AnsiType {
         match self.0 {
-            ClearType::All => {
-                return terminal::ansi::CLEAR_ALL_CSI_SEQUENCE;
-            }
-            ClearType::FromCursorDown => {
-                return terminal::ansi::CLEAR_FROM_CURSOR_DOWN_CSI_SEQUENCE;
-            }
-            ClearType::FromCursorUp => {
-                return terminal::ansi::CLEAR_FROM_CURSOR_UP_CSI_SEQUENCE;
-            }
-            ClearType::CurrentLine => return terminal::ansi::CLEAR_FROM_CURRENT_LINE_CSI_SEQUENCE,
-            ClearType::UntilNewLine => return terminal::ansi::CLEAR_UNTIL_NEW_LINE_CSI_SEQUENCE,
+            ClearType::All => terminal::ansi::CLEAR_ALL_CSI_SEQUENCE,
+            ClearType::FromCursorDown => terminal::ansi::CLEAR_FROM_CURSOR_DOWN_CSI_SEQUENCE,
+            ClearType::FromCursorUp => terminal::ansi::CLEAR_FROM_CURSOR_UP_CSI_SEQUENCE,
+            ClearType::CurrentLine => terminal::ansi::CLEAR_FROM_CURRENT_LINE_CSI_SEQUENCE,
+            ClearType::UntilNewLine => terminal::ansi::CLEAR_UNTIL_NEW_LINE_CSI_SEQUENCE,
         }
     }
 
