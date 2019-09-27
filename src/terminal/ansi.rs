@@ -6,55 +6,49 @@ use crossterm_utils::{csi, write_cout, Result};
 
 use crate::sys::get_terminal_size;
 
-use super::{ClearType, ITerminal};
+use super::{ClearType, Terminal};
 
-pub static CLEAR_ALL: &'static str = csi!("2J");
-pub static CLEAR_FROM_CURSOR_DOWN: &'static str = csi!("J");
-pub static CLEAR_FROM_CURSOR_UP: &'static str = csi!("1J");
-pub static CLEAR_FROM_CURRENT_LINE: &'static str = csi!("2K");
-pub static CLEAR_UNTIL_NEW_LINE: &'static str = csi!("K");
+pub(crate) static CLEAR_ALL_CSI_SEQUENCE: &'static str = csi!("2J");
+pub(crate) static CLEAR_FROM_CURSOR_DOWN_CSI_SEQUENCE: &'static str = csi!("J");
+pub(crate) static CLEAR_FROM_CURSOR_UP_CSI_SEQUENCE: &'static str = csi!("1J");
+pub(crate) static CLEAR_FROM_CURRENT_LINE_CSI_SEQUENCE: &'static str = csi!("2K");
+pub(crate) static CLEAR_UNTIL_NEW_LINE_CSI_SEQUENCE: &'static str = csi!("K");
 
-pub fn get_scroll_up_ansi(count: u16) -> String {
+pub(crate) fn scroll_up_csi_sequence(count: u16) -> String {
     format!(csi!("{}S"), count)
 }
 
-pub fn get_scroll_down_ansi(count: u16) -> String {
+pub(crate) fn scroll_down_csi_sequence(count: u16) -> String {
     format!(csi!("{}T"), count)
 }
 
-pub fn get_set_size_ansi(width: u16, height: u16) -> String {
+pub(crate) fn set_size_csi_sequence(width: u16, height: u16) -> String {
     format!(csi!("8;{};{}t"), height, width)
 }
 
 /// This struct is an ansi escape code implementation for terminal related actions.
-pub struct AnsiTerminal;
+pub(crate) struct AnsiTerminal;
 
 impl AnsiTerminal {
-    pub fn new() -> AnsiTerminal {
+    pub(crate) fn new() -> AnsiTerminal {
         AnsiTerminal
     }
 }
 
-impl ITerminal for AnsiTerminal {
+impl Terminal for AnsiTerminal {
     fn clear(&self, clear_type: ClearType) -> Result<()> {
         match clear_type {
-            ClearType::All => {
-                write_cout!(CLEAR_ALL)?;
-                TerminalCursor::new().goto(0, 0)?;
-            }
-            ClearType::FromCursorDown => {
-                write_cout!(CLEAR_FROM_CURSOR_DOWN)?;
-            }
-            ClearType::FromCursorUp => {
-                write_cout!(CLEAR_FROM_CURSOR_UP)?;
-            }
-            ClearType::CurrentLine => {
-                write_cout!(CLEAR_FROM_CURRENT_LINE)?;
-            }
-            ClearType::UntilNewLine => {
-                write_cout!(CLEAR_UNTIL_NEW_LINE)?;
-            }
+            ClearType::All => write_cout!(CLEAR_ALL_CSI_SEQUENCE)?,
+            ClearType::FromCursorDown => write_cout!(CLEAR_FROM_CURSOR_DOWN_CSI_SEQUENCE)?,
+            ClearType::FromCursorUp => write_cout!(CLEAR_FROM_CURSOR_UP_CSI_SEQUENCE)?,
+            ClearType::CurrentLine => write_cout!(CLEAR_FROM_CURRENT_LINE_CSI_SEQUENCE)?,
+            ClearType::UntilNewLine => write_cout!(CLEAR_UNTIL_NEW_LINE_CSI_SEQUENCE)?,
         };
+
+        if clear_type == ClearType::All {
+            TerminalCursor::new().goto(0, 0)?;
+        }
+
         Ok(())
     }
 
@@ -63,17 +57,17 @@ impl ITerminal for AnsiTerminal {
     }
 
     fn scroll_up(&self, count: u16) -> Result<()> {
-        write_cout!(get_scroll_up_ansi(count))?;
+        write_cout!(scroll_up_csi_sequence(count))?;
         Ok(())
     }
 
     fn scroll_down(&self, count: u16) -> Result<()> {
-        write_cout!(get_scroll_down_ansi(count))?;
+        write_cout!(scroll_down_csi_sequence(count))?;
         Ok(())
     }
 
     fn set_size(&self, width: u16, height: u16) -> Result<()> {
-        write_cout!(get_set_size_ansi(width, height))?;
+        write_cout!(set_size_csi_sequence(width, height))?;
         Ok(())
     }
 }
@@ -82,11 +76,10 @@ impl ITerminal for AnsiTerminal {
 mod tests {
     use std::{thread, time};
 
-    use super::{AnsiTerminal, ITerminal};
+    use super::{AnsiTerminal, Terminal};
 
-    /* ======================== ANSI =========================== */
-    #[test]
     // TODO - Test is disabled, because it's failing on Travis CI
+    #[test]
     #[ignore]
     fn test_resize_ansi() {
         if try_enable_ansi() {

@@ -9,18 +9,18 @@ use crossterm_winapi::{Console, Coord, Handle, ScreenBuffer, Size};
 
 use crate::sys::winapi::get_terminal_size;
 
-use super::{ClearType, ITerminal};
+use super::{ClearType, Terminal};
 
 /// This struct is a winapi implementation for terminal related actions.
-pub struct WinApiTerminal;
+pub(crate) struct WinApiTerminal;
 
 impl WinApiTerminal {
-    pub fn new() -> Box<WinApiTerminal> {
+    pub(crate) fn new() -> Box<WinApiTerminal> {
         Box::from(WinApiTerminal {})
     }
 }
 
-impl ITerminal for WinApiTerminal {
+impl Terminal for WinApiTerminal {
     fn clear(&self, clear_type: ClearType) -> Result<()> {
         let screen_buffer = ScreenBuffer::current()?;
         let csbi = screen_buffer.info()?;
@@ -171,7 +171,7 @@ impl ITerminal for WinApiTerminal {
     }
 }
 
-pub fn clear_after_cursor(
+fn clear_after_cursor(
     location: Coord,
     buffer_size: Size,
     current_attribute: u16,
@@ -193,7 +193,7 @@ pub fn clear_after_cursor(
     clear(start_location, cells_to_write, current_attribute)
 }
 
-pub fn clear_before_cursor(
+fn clear_before_cursor(
     location: Coord,
     buffer_size: Size,
     current_attribute: u16,
@@ -215,7 +215,7 @@ pub fn clear_before_cursor(
     clear(start_location, cells_to_write, current_attribute)
 }
 
-pub fn clear_entire_screen(buffer_size: Size, current_attribute: u16) -> Result<()> {
+fn clear_entire_screen(buffer_size: Size, current_attribute: u16) -> Result<()> {
     // get sum cells before cursor
     let cells_to_write = buffer_size.width as u32 * buffer_size.height as u32;
 
@@ -231,7 +231,7 @@ pub fn clear_entire_screen(buffer_size: Size, current_attribute: u16) -> Result<
     Ok(())
 }
 
-pub fn clear_current_line(
+fn clear_current_line(
     location: Coord,
     buffer_size: Size,
     current_attribute: u16,
@@ -251,7 +251,7 @@ pub fn clear_current_line(
     Ok(())
 }
 
-pub fn clear_until_line(location: Coord, buffer_size: Size, current_attribute: u16) -> Result<()> {
+fn clear_until_line(location: Coord, buffer_size: Size, current_attribute: u16) -> Result<()> {
     let (x, y) = (location.x, location.y);
 
     // location where to start clearing
@@ -279,7 +279,7 @@ fn clear(start_location: Coord, cells_to_write: u32, current_attribute: u16) -> 
 
 #[cfg(test)]
 mod tests {
-    use super::{ITerminal, WinApiTerminal};
+    use super::{Terminal, WinApiTerminal};
 
     #[test]
     fn test_resize_winapi() {
