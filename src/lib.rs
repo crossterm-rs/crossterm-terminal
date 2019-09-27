@@ -78,7 +78,7 @@ pub enum ClearType {
     FromCursorDown,
     /// All cells from the cursor position upwards.
     FromCursorUp,
-    /// Current line.
+    /// All cells at the cursor row.
     CurrentLine,
     /// All cells from the cursor position until the new line.
     UntilNewLine,
