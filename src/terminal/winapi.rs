@@ -171,11 +171,7 @@ impl Terminal for WinApiTerminal {
     }
 }
 
-fn clear_after_cursor(
-    location: Coord,
-    buffer_size: Size,
-    current_attribute: u16,
-) -> Result<()> {
+fn clear_after_cursor(location: Coord, buffer_size: Size, current_attribute: u16) -> Result<()> {
     let (mut x, mut y) = (location.x, location.y);
 
     // if cursor position is at the outer right position
@@ -193,11 +189,7 @@ fn clear_after_cursor(
     clear(start_location, cells_to_write, current_attribute)
 }
 
-fn clear_before_cursor(
-    location: Coord,
-    buffer_size: Size,
-    current_attribute: u16,
-) -> Result<()> {
+fn clear_before_cursor(location: Coord, buffer_size: Size, current_attribute: u16) -> Result<()> {
     let (xpos, ypos) = (location.x, location.y);
 
     // one cell after cursor position
@@ -231,11 +223,7 @@ fn clear_entire_screen(buffer_size: Size, current_attribute: u16) -> Result<()> 
     Ok(())
 }
 
-fn clear_current_line(
-    location: Coord,
-    buffer_size: Size,
-    current_attribute: u16,
-) -> Result<()> {
+fn clear_current_line(location: Coord, buffer_size: Size, current_attribute: u16) -> Result<()> {
     // location where to start clearing
     let start_location = Coord::new(0, location.y);
 
