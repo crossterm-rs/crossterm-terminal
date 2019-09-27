@@ -1,7 +1,8 @@
 //! This is a `WINAPI` specific implementation for terminal related action.
 //! This module is used for non supporting `ANSI` windows terminals.
 //!
-//! Windows versions lower then windows 10 are not supporting ANSI codes. Those versions will use this implementation instead.
+//! Windows versions lower then windows 10 are not supporting ANSI codes. Those versions
+//! will use this implementation instead.
 
 use crossterm_cursor::TerminalCursor;
 use crossterm_utils::{ErrorKind, Result};

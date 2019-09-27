@@ -1,4 +1,5 @@
-//! A module that contains all the actions related to the terminal. like clearing, resizing, pausing and scrolling the terminal.
+//! A module that contains all the actions related to the terminal. like clearing, resizing, pausing
+//! and scrolling the terminal.
 use crossterm_utils::Result;
 
 use super::ClearType;
