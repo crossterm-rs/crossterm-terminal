@@ -18,35 +18,45 @@ use self::terminal::Terminal as TerminalTrait;
 pub(crate) mod sys;
 pub(crate) mod terminal;
 
-/// Enum with the different values to clear the terminal.
+/// Represents different options how to clear the terminal.
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 #[derive(Copy, Clone, Debug, PartialEq, Eq, Ord, PartialOrd, Hash)]
 pub enum ClearType {
-    /// clear all cells in terminal.
+    /// All cells.
     All,
-    /// clear all cells from the cursor position downwards in terminal.
+    /// All cells from the cursor position downwards.
     FromCursorDown,
-    /// clear all cells from the cursor position upwards in terminal.
+    /// All cells from the cursor position upwards.
     FromCursorUp,
-    /// clear current line cells in terminal.
+    /// Current line.
     CurrentLine,
-    /// clear all cells from cursor position until new line in terminal.
+    /// All cells from the cursor position until the new line.
     UntilNewLine,
 }
 
-/// Allows you to preform actions on the terminal.
+/// A terminal.
 ///
-/// # Features:
+/// The `Terminal` instance is stateless and does not hold any data.
+/// You can create as many instances as you want and they will always refer to the
+/// same terminal.
 ///
-/// - Clearing (all lines, current line, from cursor down and up, until new line)
-/// - Scrolling (Up, down)
-/// - Get the size of the terminal
-/// - Set the size of the terminal
-/// - Alternate screen
-/// - Raw screen
-/// - Exit the current process
+/// # Examples
 ///
-/// Check `/examples/` in the library for more specific examples.
+/// Basic usage:
+///
+/// ```no_run
+/// use crossterm_terminal::{Result, Terminal};
+///
+/// fn main() -> Result<()> {
+///     let terminal = Terminal::new();
+///     let (cols, rows) = terminal.size()?;
+///
+///     terminal.set_size(10, 10)?;
+///     terminal.scroll_up(5)?;
+///
+///     terminal.set_size(cols, rows)
+/// }
+/// ```
 pub struct Terminal {
     #[cfg(windows)]
     terminal: Box<(dyn TerminalTrait + Sync + Send)>,
@@ -55,7 +65,7 @@ pub struct Terminal {
 }
 
 impl Terminal {
-    /// Create new terminal instance whereon terminal related actions can be performed.
+    /// Creates a new `Terminal`.
     pub fn new() -> Terminal {
         #[cfg(windows)]
         let terminal = if supports_ansi() {
@@ -70,99 +80,65 @@ impl Terminal {
         Terminal { terminal }
     }
 
-    /// Clear the current cursor by specifying the `ClearType`.
+    /// Clears the terminal.
     ///
-    /// # Example
-    /// ```rust
-    /// # use crossterm_terminal as crossterm;
-    /// # use crossterm_terminal::terminal;
-    /// let mut term = terminal();
-    ///
-    /// // clear all cells in terminal.
-    /// term.clear(crossterm::ClearType::All);
-    /// // clear all cells from the cursor position downwards in terminal.
-    /// term.clear(crossterm::ClearType::FromCursorDown);
-    /// // clear all cells from the cursor position upwards in terminal.
-    /// term.clear(crossterm::ClearType::FromCursorUp);
-    /// // clear current line cells in terminal.
-    /// term.clear(crossterm::ClearType::CurrentLine);
-    /// // clear all cells from cursor position until new line in terminal.
-    /// term.clear(crossterm::ClearType::UntilNewLine);
-    /// ```
+    /// See the [`ClearType`](enum.ClearType.html) enum to learn about
+    /// all ways how the terminal can be cleared.
     pub fn clear(&self, clear_type: ClearType) -> Result<()> {
         self.terminal.clear(clear_type)
     }
 
-    /// Get the terminal size `(x,y)`.
+    /// Gets the terminal size (`(columns, rows)`).
     pub fn size(&self) -> Result<(u16, u16)> {
         self.terminal.size()
     }
 
-    /// Scroll `n` lines up in the current terminal.
-    ///
-    /// # Parameter
-    /// - `count`: the number of rows should be shifted up.
-    pub fn scroll_up(&self, count: u16) -> Result<()> {
-        self.terminal.scroll_up(count)
+    /// Scrolls the terminal `row_count` rows up.
+    pub fn scroll_up(&self, row_count: u16) -> Result<()> {
+        self.terminal.scroll_up(row_count)
     }
 
-    /// Scroll `n` lines down in the current terminal.
-    ///
-    /// # Parameter
-    /// - `count`: the number of rows should be shifted down.
-    pub fn scroll_down(&self, count: u16) -> Result<()> {
-        self.terminal.scroll_down(count)
+    /// Scrolls the terminal `row_count` rows down.
+    pub fn scroll_down(&self, row_count: u16) -> Result<()> {
+        self.terminal.scroll_down(row_count)
     }
 
-    /// Set the terminal size. Note that not all terminals can be set to a very small scale.
-    ///
-    /// ```rust
-    /// # use crossterm_terminal::terminal;
-    /// let mut term = terminal();
-    ///
-    /// // Set of the size to X: 10 and Y: 10
-    /// let size = term.set_size(10,10);
-    /// ```
-    pub fn set_size(&self, width: u16, height: u16) -> Result<()> {
-        self.terminal.set_size(width, height)
+    /// Sets the terminal size.
+    pub fn set_size(&self, columns: u16, rows: u16) -> Result<()> {
+        self.terminal.set_size(columns, rows)
     }
 
-    // TODO - Marked as no_run, because it's failing on Travis CI
-    /// Exit the current process.
+    /// Exits the current process.
     ///
-    /// ```no_run
-    /// # use crossterm_terminal::terminal;
-    /// let mut term = terminal();
+    /// # Platform-specific behavior
     ///
-    /// let size = term.exit();
-    /// ```
+    /// [`std::process::exit`](https://doc.rust-lang.org/std/process/fn.exit.html) is
+    /// called internally with platform specific exit codes.
+    ///
+    /// **Unix**: exit code 0.
+    ///
+    /// **Windows**: exit code 256.
     pub fn exit(&self) {
         crate::sys::exit();
     }
 
-    /// Write any displayable content to the current terminal screen.
-    ///
-    /// ```rust
-    /// # use crossterm_terminal::terminal;
-    /// let mut term = terminal();
-    ///
-    /// let size = term.write("Some text \n Some text on new line");
-    /// ```
-    ///
-    /// This will also flush the standard output.
+    /// Writes any displayable content to the current terminal and flushes
+    /// the standard output.
     pub fn write<D: fmt::Display>(&self, value: D) -> Result<usize> {
         write_cout!(format!("{}", value))
     }
 }
 
-/// Get a `Terminal` instance whereon terminal related actions can be performed.
+/// Creates a new `Terminal`.
 pub fn terminal() -> Terminal {
     Terminal::new()
 }
 
-/// When executed, this command will scroll up the terminal buffer by the given number of times.
+/// A command to scroll the terminal given rows up.
 ///
-/// See `crossterm/examples/command.rs` for more information on how to execute commands.
+/// # Notes
+///
+/// Commands must be executed / queued for execution otherwise they do nothing.
 pub struct ScrollUp(pub u16);
 
 impl Command for ScrollUp {
@@ -178,9 +154,11 @@ impl Command for ScrollUp {
     }
 }
 
-/// When executed, this command will scroll down the terminal buffer by the given number of times.
+/// A command to scroll the terminal given rows down.
 ///
-/// See `crossterm/examples/command.rs` for more information on how to execute commands.
+/// # Notes
+///
+/// Commands must be executed / queued for execution otherwise they do nothing.
 pub struct ScrollDown(pub u16);
 
 impl Command for ScrollDown {
@@ -196,9 +174,13 @@ impl Command for ScrollDown {
     }
 }
 
-/// When executed, this command will clear the terminal buffer based on the type provided.
+/// A command to clear the terminal.
 ///
-/// See `crossterm/examples/command.rs` for more information on how to execute commands.
+/// See the [`ClearType`](enum.ClearType.html) enum.
+///
+/// # Notes
+///
+/// Commands must be executed / queued for execution otherwise they do nothing.
 pub struct Clear(pub ClearType);
 
 impl Command for Clear {
@@ -226,9 +208,11 @@ impl Command for Clear {
     }
 }
 
-/// When executed, this command will set the terminal sie to the given (`width` and `height`)
+/// A command to set the terminal size (rows, columns).
 ///
-/// See `crossterm/examples/command.rs` for more information on how to execute commands.
+/// # Notes
+///
+/// Commands must be executed / queued for execution otherwise they do nothing.
 pub struct SetSize(pub u16, pub u16);
 
 impl Command for SetSize {
