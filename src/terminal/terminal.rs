@@ -146,7 +146,7 @@ impl Command for ScrollUp {
     type AnsiType = String;
 
     fn ansi_code(&self) -> Self::AnsiType {
-        super::ansi_terminal::get_scroll_up_ansi(self.0)
+        super::ansi::get_scroll_up_ansi(self.0)
     }
 
     #[cfg(windows)]
@@ -164,7 +164,7 @@ impl Command for ScrollDown {
     type AnsiType = String;
 
     fn ansi_code(&self) -> Self::AnsiType {
-        super::ansi_terminal::get_scroll_down_ansi(self.0)
+        super::ansi::get_scroll_down_ansi(self.0)
     }
 
     #[cfg(windows)]
@@ -184,16 +184,16 @@ impl Command for Clear {
     fn ansi_code(&self) -> Self::AnsiType {
         match self.0 {
             ClearType::All => {
-                return super::ansi_terminal::CLEAR_ALL;
+                return super::ansi::CLEAR_ALL;
             }
             ClearType::FromCursorDown => {
-                return super::ansi_terminal::CLEAR_FROM_CURSOR_DOWN;
+                return super::ansi::CLEAR_FROM_CURSOR_DOWN;
             }
             ClearType::FromCursorUp => {
-                return super::ansi_terminal::CLEAR_FROM_CURSOR_UP;
+                return super::ansi::CLEAR_FROM_CURSOR_UP;
             }
-            ClearType::CurrentLine => return super::ansi_terminal::CLEAR_FROM_CURRENT_LINE,
-            ClearType::UntilNewLine => return super::ansi_terminal::CLEAR_UNTIL_NEW_LINE,
+            ClearType::CurrentLine => return super::ansi::CLEAR_FROM_CURRENT_LINE,
+            ClearType::UntilNewLine => return super::ansi::CLEAR_UNTIL_NEW_LINE,
         }
     }
 
@@ -212,7 +212,7 @@ impl Command for SetSize {
     type AnsiType = String;
 
     fn ansi_code(&self) -> Self::AnsiType {
-        super::ansi_terminal::get_set_size_ansi(self.0, self.1)
+        super::ansi::get_set_size_ansi(self.0, self.1)
     }
 
     #[cfg(windows)]
