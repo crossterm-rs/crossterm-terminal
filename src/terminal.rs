@@ -1,14 +1,11 @@
 //! A module that contains all the actions related to the terminal. like clearing, resizing, pausing and scrolling the terminal.
 use crossterm_utils::Result;
-#[cfg(windows)]
-use crossterm_utils::supports_ansi;
 
 use super::ClearType;
 
 pub(crate) mod ansi;
 #[cfg(windows)]
 pub(crate) mod winapi;
-
 
 /// This trait defines the actions that can be performed with the terminal color.
 /// This trait can be implemented so that an concrete implementation of the ITerminalColor can fulfill.
