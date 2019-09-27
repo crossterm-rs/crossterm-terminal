@@ -1,5 +1,55 @@
 #![deny(unused_imports, unused_must_use)]
 
+//! # Terminal
+//!
+//! The `crossterm_terminal` crate provides a functionality to work with the terminal.
+//!
+//! This documentation does not contain a lot of examples. The reason is that it's fairly
+//! obvious how to use this crate. Although, we do provide
+//! [examples](https://github.com/crossterm-rs/examples) repository
+//! to demonstrate the capabilities.
+//!
+//! ## Examples
+//!
+//! ```no_run
+//! use crossterm_terminal::{Result, Terminal};
+//!
+//! fn main() -> Result<()> {
+//!     // Get a terminal, save size
+//!     let terminal = Terminal::new();
+//!     let (cols, rows) = terminal.size()?;
+//!
+//!     // Do something with the terminal
+//!     terminal.set_size(10, 10)?;
+//!     terminal.scroll_up(5)?;
+//!
+//!     // Be a good citizen, cleanup
+//!     terminal.set_size(cols, rows)
+//! }
+//! ```
+//!
+//! Commands:
+//!
+//! ```no_run
+//! use std::io::{stdout, Write};
+//! use crossterm_terminal::{execute, Result, ScrollUp, SetSize, Terminal};
+//!
+//! fn main() -> Result<()> {
+//!     // Get a terminal, save size
+//!     let terminal = Terminal::new();
+//!     let (cols, rows) = terminal.size()?;
+//!
+//!     // Do something with the terminal
+//!     execute!(
+//!         stdout(),
+//!         SetSize(10, 10),
+//!         ScrollUp(5)
+//!     )?;
+//!
+//!     // Be a good citizen, cleanup
+//!     terminal.set_size(cols, rows)
+//! }
+//! ```
 use std::fmt;
 
 #[cfg(windows)]
