@@ -3,8 +3,8 @@
 # Crossterm Terminal
 
 This crate allows you to perform terminal related actions cross-platform e.g clearing, resizing etc. 
-It supports all UNIX and Windows terminals down to Windows 7 (not all terminals are tested see
-[Tested Terminals](#tested-terminals) for more info)
+It supports all UNIX and Windows terminals down to Windows 7 (not all terminals are tested, see
+[Tested Terminals](https://github.com/crossterm-rs/crossterm/blob/master/README.md#tested-terminals) for more info).
 
 `crossterm_terminal` is a sub-crate of the [crossterm](https://crates.io/crates/crossterm) crate. You can use it
 directly, but it's **highly recommended** to use the [crossterm](https://crates.io/crates/crossterm) crate with
