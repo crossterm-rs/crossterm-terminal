@@ -73,7 +73,7 @@ easier to use.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](./LICENSE) file for details
+This project is licensed under the MIT License - see the [LICENSE](./LICENSE) file for details
 
 [s1]: https://img.shields.io/crates/v/crossterm_terminal.svg
 [l1]: https://crates.io/crates/crossterm_terminal
