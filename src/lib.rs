@@ -160,7 +160,7 @@ impl Terminal {
 
     /// Exits the current process.
     ///
-    /// # Platform-specific behavior
+    /// # Platform-specific Behavior
     ///
     /// [`std::process::exit`](https://doc.rust-lang.org/std/process/fn.exit.html) is
     /// called internally with platform specific exit codes.
