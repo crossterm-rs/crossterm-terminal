@@ -138,7 +138,7 @@ impl Terminal {
         self.terminal.clear(clear_type)
     }
 
-    /// Gets the terminal size (`(columns, rows)`).
+    /// Returns the terminal size (`(columns, rows)`).
     pub fn size(&self) -> Result<(u16, u16)> {
         self.terminal.size()
     }
