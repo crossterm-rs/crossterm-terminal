@@ -188,7 +188,7 @@ pub fn terminal() -> Terminal {
 ///
 /// # Notes
 ///
-/// Commands must be executed / queued for execution otherwise they do nothing.
+/// Commands must be executed/queued for execution otherwise they do nothing.
 pub struct ScrollUp(pub u16);
 
 impl Command for ScrollUp {
@@ -208,7 +208,7 @@ impl Command for ScrollUp {
 ///
 /// # Notes
 ///
-/// Commands must be executed / queued for execution otherwise they do nothing.
+/// Commands must be executed/queued for execution otherwise they do nothing.
 pub struct ScrollDown(pub u16);
 
 impl Command for ScrollDown {
@@ -230,7 +230,7 @@ impl Command for ScrollDown {
 ///
 /// # Notes
 ///
-/// Commands must be executed / queued for execution otherwise they do nothing.
+/// Commands must be executed/queued for execution otherwise they do nothing.
 pub struct Clear(pub ClearType);
 
 impl Command for Clear {
@@ -256,7 +256,7 @@ impl Command for Clear {
 ///
 /// # Notes
 ///
-/// Commands must be executed / queued for execution otherwise they do nothing.
+/// Commands must be executed/queued for execution otherwise they do nothing.
 pub struct SetSize(pub u16, pub u16);
 
 impl Command for SetSize {
