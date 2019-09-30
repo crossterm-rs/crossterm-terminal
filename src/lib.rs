@@ -180,6 +180,27 @@ impl Terminal {
 }
 
 /// Creates a new `Terminal`.
+///
+/// # Examples
+///
+/// Basic usage:
+///
+/// ```no_run
+/// use crossterm_terminal::{terminal, Result};
+///
+/// fn main() -> Result<()> {
+///     // Get a terminal, save size
+///     let terminal = terminal();
+///     let (cols, rows) = terminal.size()?;
+///
+///     // Do something with the terminal
+///     terminal.set_size(10, 10)?;
+///     terminal.scroll_up(5)?;
+///
+///     // Be a good citizen, cleanup
+///     terminal.set_size(cols, rows)
+/// }
+/// ```
 pub fn terminal() -> Terminal {
     Terminal::new()
 }
