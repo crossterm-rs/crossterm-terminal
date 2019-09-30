@@ -1,13 +1,11 @@
+use crossterm_utils::Result;
 use libc::{ioctl, winsize, STDOUT_FILENO, TIOCGWINSZ};
 
-use crossterm_utils::Result;
-
-pub fn exit() {
+pub(crate) fn exit() {
     ::std::process::exit(0);
 }
 
-/// Get the current terminal size.
-pub fn get_terminal_size() -> Result<(u16, u16)> {
+pub(crate) fn get_terminal_size() -> Result<(u16, u16)> {
     // http://rosettacode.org/wiki/Terminal_control/Dimensions#Library:_BSD_libc
     let mut size = winsize {
         ws_row: 0,
