@@ -2,6 +2,7 @@
 
 - Internal refactoring (no breaking changes)
 - Proper documentation of all public types
+- Remove all references to the crossterm book
 
 # Version 0.3.1
 

@@ -8,8 +8,7 @@ It supports all UNIX and Windows terminals down to Windows 7 (not all terminals 
 
 `crossterm_terminal` is a sub-crate of the [crossterm](https://crates.io/crates/crossterm) crate. You can use it
 directly, but it's **highly recommended** to use the [crossterm](https://crates.io/crates/crossterm) crate with
-the `terminal` feature enabled (see [feature flags](https://crossterm-rs.github.io/crossterm/docs/feature_flags.html)
-for more info).
+the `terminal` feature enabled.
 
 ## Future
 
@@ -57,15 +56,10 @@ fn main() -> Result<()> {
 }
 ```
 
-It's recommended to use the [Command API](https://crossterm-rs.github.io/crossterm/docs/command.html),
-because this might replace some of the existing API in the future. It is more convenient, faster and
-easier to use.
-
 ## Other Resources
 
 - [API documentation](https://docs.rs/crossterm_terminal/) (with other examples)
 - [Examples repository](https://github.com/crossterm-rs/examples)
-- [The Book](https://crossterm-rs.github.io/crossterm/docs/index.html)
 
 ## Authors
 
