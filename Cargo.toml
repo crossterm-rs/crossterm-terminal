@@ -15,12 +15,12 @@ edition = "2018"
 maintenance = { status = "deprecated" }
 
 [target.'cfg(windows)'.dependencies]
-crossterm_winapi = { version = "0.2.1" }
+crossterm_winapi = { version = "0.2.2" }
 
 [target.'cfg(unix)'.dependencies]
 libc = "0.2.51"
 
 [dependencies]
-crossterm_utils = { version = "0.3.1" }
-crossterm_cursor = { version = "0.3.1" }
+crossterm_utils = { version = "0.4.0" }
+crossterm_cursor = { version = "0.4.0" }
 serde = { version = "1.0.0", features = ["derive"], optional = true }
