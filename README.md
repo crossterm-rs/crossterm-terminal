@@ -2,6 +2,12 @@
 
 # Crossterm Terminal
 
+**The `crossterm_terminal` crate is deprecated and no longer maintained. The GitHub repository will
+be archived soon. All the code is being moved to the `crossterm`
+[crate](https://github.com/crossterm-rs/crossterm). You can learn more in the
+[Merge sub-crates to the crossterm crate](https://github.com/crossterm-rs/crossterm/issues/265)
+issue.**
+
 This crate allows you to perform terminal related actions cross-platform e.g clearing, resizing etc. 
 It supports all UNIX and Windows terminals down to Windows 7 (not all terminals are tested, see
 [Tested Terminals](https://github.com/crossterm-rs/crossterm/blob/master/README.md#tested-terminals) for more info).
