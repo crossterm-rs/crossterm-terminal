@@ -1,4 +1,4 @@
-# Version master
+# Version 0.3.2
 
 - Internal refactoring (no breaking changes)
 - Proper documentation of all public types
