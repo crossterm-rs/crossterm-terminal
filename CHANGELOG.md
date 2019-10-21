@@ -1,8 +1,8 @@
-# Version master
+# Version 0.3.2
 
-- Internal refactoring (no breaking changes)
-- Proper documentation of all public types
-- Remove all references to the crossterm book
+- Removed `crossterm_cursor::sys` dependency ([PR #2](https://github.com/crossterm-rs/crossterm-terminal/pull/2))
+- Internal refactoring & documentation ([PR #3](https://github.com/crossterm-rs/crossterm-terminal/pull/3))
+- Removed all references to the crossterm book ([PR #4](https://github.com/crossterm-rs/crossterm-terminal/pull/4))
 
 # Version 0.3.1
 

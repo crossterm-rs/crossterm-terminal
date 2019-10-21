@@ -1,6 +1,6 @@
 [package]
 name = "crossterm_terminal"
-version = "0.3.1"
+version = "0.3.2"
 authors = ["T. Post"]
 description = "A cross-platform library for doing terminal related actions."
 repository = "https://github.com/crossterm-rs/crossterm-terminal"
@@ -11,13 +11,16 @@ exclude = ["target", "Cargo.lock"]
 readme = "README.md"
 edition = "2018"
 
+[badges]
+maintenance = { status = "deprecated" }
+
 [target.'cfg(windows)'.dependencies]
-crossterm_winapi = { version = "0.2.1" }
+crossterm_winapi = { version = "0.3.0" }
 
 [target.'cfg(unix)'.dependencies]
 libc = "0.2.51"
 
 [dependencies]
-crossterm_utils = { version = "0.3.1" }
-crossterm_cursor = { version = "0.3.1" }
+crossterm_utils = { version = "0.4.0" }
+crossterm_cursor = { version = "0.4.0" }
 serde = { version = "1.0.0", features = ["derive"], optional = true }
